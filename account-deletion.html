@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Deletion - CA Quiz App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin: -20px -20px 40px -20px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .warning-box strong {
+            color: #856404;
+            font-size: 1.1em;
+        }
+        
+        .info-box {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .steps-box {
+            background-color: #f0f4ff;
+            border: 2px solid #667eea;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        
+        .step {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+        
+        .step-content {
+            display: inline-block;
+            vertical-align: top;
+            width: calc(100% - 55px);
+        }
+        
+        .step-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .data-table th {
+            background-color: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .deleted {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .kept {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .contact-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .contact-box h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .email-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .email-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 30px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #667eea;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #667eea;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #667eea;
+        }
+        
+        .timeline-time {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            h2 {
+                font-size: 1.4em;
+            }
+            
+            .step-content {
+                display: block;
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Account Deletion Request</h1>
+            <p class="subtitle">CA Quiz App - Chartered Accountancy Exam Preparation</p>
+        </header>
+
+        <section>
+            <h2>How to Delete Your Account</h2>
+            <p>We respect your right to control your personal data. This page explains how to permanently delete your CA Quiz App account and all associated data.</p>
+        </section>
+
+        <div class="warning-box">
+            <strong>⚠️ Important Warning</strong>
+            <p style="margin-top: 10px;">Account deletion is <strong>permanent and cannot be undone</strong>. Once deleted, you will not be able to recover your account, quiz history, scores, or any other data.</p>
+        </div>
+
+        <section>
+            <h2>Method 1: Delete Account In-App (Recommended)</h2>
+            
+            <div class="steps-box">
+                <h3 style="margin-top: 0; color: #667eea;">Follow these steps to delete your account:</h3>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                        <div class="step-title">Open CA Quiz App</div>
+                        <p>Launch the CA Quiz App on your mobile device and ensure you are logged in to the account you wish to delete.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <div class="step-title">Navigate to Settings</div>
+                        <p>Tap on the <strong>Settings</strong> tab in the bottom navigation bar (gear icon on the right).</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                        <div class="step-title">Find Account Section</div>
+                        <p>Scroll down to the <strong>Account</strong> section in the Settings menu.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <div class="step-content">
+                        <div class="step-title">Tap "Delete Account"</div>
+                        <p>Tap on <strong>"Delete Account"</strong> (shown in red with a warning icon).</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <div class="step-content">
+                        <div class="step-title">Review Information</div>
+                        <p>Read the information about what will be deleted and the deletion timeline.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">6</span>
+                    <div class="step-content">
+                        <div class="step-title">Enter Your Password</div>
+                        <p>For security purposes, enter your account password to confirm your identity.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">7</span>
+                    <div class="step-content">
+                        <div class="step-title">Confirm Deletion</div>
+                        <p>Tap <strong>"Delete My Account"</strong> and confirm in the final warning dialog.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">8</span>
+                    <div class="step-content">
+                        <div class="step-title">Account Deleted</div>
+                        <p>Your account will be immediately deactivated and you will be logged out. Data deletion will begin immediately.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Method 2: Request Deletion via Email</h2>
+            
+            <p>If you cannot access the app or prefer to request deletion via email, you can contact our support team:</p>
+            
+            <div class="contact-box">
+                <h3>Email Support</h3>
+                <p>Send an email to:</p>
+                <a href="mailto:nextquizapp@gmail.com?subject=Account%20Deletion%20Request&body=Please%20delete%20my%20CA%20Quiz%20App%20account.%0A%0AEmail%20address%3A%20%5Byour-email%40example.com%5D%0AAccount%20name%3A%20%5Byour-name%5D%0A%0AI%20understand%20this%20action%20is%20permanent%20and%20cannot%20be%20undone." class="email-button">
+                    📧 nextquizapp@gmail.com
+                </a>
+                <p style="margin-top: 20px;"><strong>Email Subject:</strong> "Account Deletion Request"</p>
+                <p><strong>Include in your email:</strong></p>
+                <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                    <li>Your registered email address</li>
+                    <li>Your account name (if different from email)</li>
+                    <li>Confirmation that you understand deletion is permanent</li>
+                </ul>
+                <p style="margin-top: 15px; font-size: 0.9em; color: #666;">We will process your request within <strong>48 hours</strong> and send you a confirmation email once completed.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>What Data Will Be Deleted</h2>
+            
+            <p>When you delete your account, the following data will be <strong class="deleted">permanently removed</strong> from our systems:</p>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Data Type</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Account Information</strong></td>
+                        <td>Email address, name, profile picture, password</td>
+                        <td class="deleted">DELETED</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quiz Attempts</strong></td>
+                        <td>All quiz attempts, answers, and submissions</td>
+                        <td class="deleted">DELETED</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exam Attempts</strong></td>
+                        <td>Mock exam attempts, session data, results</td>
+                        <td class="deleted">DELETED</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scores & Performance</strong></td>
+                        <td>All scores, marks, performance statistics</td>
+                        <td class="deleted">DELETED</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Progress Data</strong></td>
+                        <td>Topic progress, completion rates, study history</td>
+                        <td class="deleted">DELETED</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bookmarks</strong></td>
+                        <td>Saved questions and bookmarked content</td>
+                        <td class="deleted">DELETED</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Notes</strong></td>
+                        <td>All notes, scratchpad content, rough work</td>
+                        <td class="deleted">DELETED</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Settings & Preferences</strong></td>
+                        <td>App settings, notification preferences, themes</td>
+                        <td class="deleted">DELETED</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Device Information</strong></td>
+                        <td>Device IDs, app version, usage logs</td>
+                        <td class="deleted">DELETED</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Data Retention Period</h2>
+            
+            <p>We follow a strict data deletion timeline to ensure your information is completely removed:</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">⏱️ Immediate (0-5 minutes)</div>
+                    <p><strong>Account Deactivation:</strong> Your account is immediately deactivated and you are logged out. You can no longer access the app with this account.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">⏱️ Within 24 Hours</div>
+                    <p><strong>Active Database Deletion:</strong> All your personal data is removed from our active production databases (Firebase Firestore). This includes all quiz attempts, scores, notes, and account information.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">⏱️ Within 7 Days</div>
+                    <p><strong>Analytics Anonymization:</strong> Any analytics data is anonymized and disassociated from your account. Aggregated statistics may be retained for app improvement but cannot identify you.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">⏱️ Within 30 Days</div>
+                    <p><strong>Backup Deletion:</strong> Your data is removed from all backup systems and archives. After this period, no trace of your account exists in our systems.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Data That May Be Retained</h2>
+            
+            <p>In compliance with legal requirements, the following minimal data may be <strong class="kept">retained</strong> for a limited period:</p>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Data Type</th>
+                        <th>Reason for Retention</th>
+                        <th>Retention Period</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Transaction Logs</strong></td>
+                        <td>Legal compliance, fraud prevention</td>
+                        <td>Up to 90 days</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Support Tickets</strong></td>
+                        <td>Customer service records</td>
+                        <td>Up to 1 year</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Aggregated Statistics</strong></td>
+                        <td>App improvement (anonymized, non-identifiable)</td>
+                        <td>Indefinitely</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box">
+                <strong>ℹ️ Note:</strong> Aggregated statistics are completely anonymized and cannot be used to identify you. For example: "80% of users found Paper 1 questions helpful" - this type of data helps us improve the app but contains no personal information.
+            </div>
+        </section>
+
+        <section>
+            <h2>Before You Delete</h2>
+            
+            <p>Please consider the following before deleting your account:</p>
+            
+            <ul>
+                <li><strong>Export Your Data:</strong> You can export your quiz history and performance data before deletion. Go to Settings → Account → Export Data.</li>
+                <li><strong>Alternative Options:</strong> If you're concerned about privacy, you can:
+                    <ul>
+                        <li>Disable analytics in Settings</li>
+                        <li>Turn off notifications</li>
+                        <li>Clear your quiz history without deleting your account</li>
+                    </ul>
+                </li>
+                <li><strong>Temporary Break:</strong> You can simply log out and not use the app. Your data will remain safe if you decide to return.</li>
+                <li><strong>Contact Support:</strong> If you're having issues with the app, please contact us first. We're here to help!</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>After Deletion</h2>
+            
+            <p>Once your account is deleted:</p>
+            
+            <ul>
+                <li>✅ You will receive a confirmation email (if email is still accessible)</li>
+                <li>✅ You can create a new account with the same email address after 7 days</li>
+                <li>✅ Any data previously deleted cannot be recovered</li>
+                <li>✅ You will no longer receive any communications from us</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Questions or Issues?</h2>
+            
+            <p>If you have any questions about account deletion or encounter any issues, please contact us:</p>
+            
+            <div class="contact-box">
+                <h3>Contact Support</h3>
+                <p><strong>Email:</strong> <a href="mailto:nextquizapp@gmail.com">nextquizapp@gmail.com</a></p>
+                <p><strong>Response Time:</strong> Within 48 hours</p>
+                <p style="margin-top: 15px;">We're here to help with any questions or concerns about your data and privacy.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Your Privacy Rights</h2>
+            
+            <p>Under data protection laws (including GDPR), you have the right to:</p>
+            
+            <ul>
+                <li><strong>Right to Access:</strong> Request a copy of your personal data</li>
+                <li><strong>Right to Rectification:</strong> Correct inaccurate data</li>
+                <li><strong>Right to Erasure:</strong> Delete your account and data (this page)</li>
+                <li><strong>Right to Data Portability:</strong> Export your data in a machine-readable format</li>
+                <li><strong>Right to Object:</strong> Object to certain data processing activities</li>
+            </ul>
+            
+            <p>For more information about how we handle your data, please read our <a href="./index.html" style="color: #667eea; font-weight: bold;">Privacy Policy</a>.</p>
+        </section>
+
+        <div class="footer">
+            <p><strong>CA Quiz App</strong> - Empowering CA Students</p>
+            <p>© 2025 CA Quiz App. All rights reserved.</p>
+            <p style="margin-top: 10px;">
+                <a href="./index.html" style="color: #667eea; text-decoration: none;">Privacy Policy</a> | 
+                <a href="mailto:nextquizapp@gmail.com" style="color: #667eea; text-decoration: none;">Contact Us</a>
+            </p>
+            <p style="margin-top: 10px; font-size: 0.85em;">Last Updated: October 25, 2025</p>
+        </div>
+    </div>
+</body>
+</html>
